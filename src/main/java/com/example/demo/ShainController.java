@@ -8,6 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class ShainController {
+	
+	private final ShainService shainService;
+
+	//ShainServiceのDI
+	public ShainController(ShainService shainService) {
+	this.shainService = shainService;
+	}
 
 	@RequestMapping("/input")
 	public String index(ShainForm shainform) {
@@ -20,7 +27,10 @@ public class ShainController {
 			return "index.html";
 
 		}
-		String name = "コントローラー太郎";
+//		String name = "コントローラー太郎";
+		//サービス層から社員を検索
+		String name = shainService.findByNo(shainForm.getNumber());
+		
 		model.addAttribute("number", shainForm.getNumber());
 		model.addAttribute("name", name);
 		return "output.html";
